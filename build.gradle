@@ -1,0 +1,22 @@
+plugins {
+	id 'org.springframework.boot' version '2.6.1'
+	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+	id 'java'
+}
+
+group = 'org.so.example'
+version = '1.0'
+sourceCompatibility = '1.8'
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter'
+
+	implementation 'javax.json:javax.json-api:1.0'
+	implementation 'org.apache.tomcat:tomcat-util:9.0.16'
+	implementation 'org.glassfish:javax.json:1.1'
+}
+
