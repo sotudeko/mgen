@@ -13,6 +13,7 @@ public class Organizations implements CsvFileService {
 
     @Override
     public void makeCsvFile(JsonReader reader) {
+        log.info("Making Organizations report");
 
         JsonObject obj = reader.readObject();
         JsonArray results = obj.getJsonArray("organizations");
@@ -20,6 +21,7 @@ public class Organizations implements CsvFileService {
         for (JsonObject result : results.getValuesAs(JsonObject.class)) {
             String id = result.getString("id");
             String oname = result.getString("name");
+
             log.info(id + " -> " + oname);
         }
     }

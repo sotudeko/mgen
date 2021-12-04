@@ -18,12 +18,12 @@ public class ApplicationEvaluations implements CsvFileService {
         JsonArray results = reader.readArray();
 
         for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-
             String stage = result.getString("stage");
-            String applicationId = result.getString("applicationId");
             String evaluationDate = result.getString("evaluationDate");
+            String reportDataUrl = result.getString("reportDataUrl");
+            String applicationName = reportDataUrl.split("/")[3];
 
-            log.info(stage + ":" + applicationId + ":" + evaluationDate);
+            log.info(stage + ":" + applicationName + ":" + evaluationDate);
         }
 
     }
