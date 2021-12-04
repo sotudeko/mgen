@@ -30,7 +30,7 @@ public class NexusIQApiService {
     @Value("${iq.api}")
     private String iqApi;
 
-    public void makeReport(MapToCsv mtc, String endPoint) throws IOException {
+    public void makeReport(CsvFileService cfs, String endPoint) throws IOException {
         String urlString = iqUrl + iqApi + endPoint;
         log.info("Fetching data from " + urlString);
 
@@ -46,7 +46,7 @@ public class NexusIQApiService {
         try {
             InputStream is = urlConnection.getInputStream();
             JsonReader reader = Json.createReader(is);
-            mtc.makeCsvFile(reader);
+            cfs.makeCsvFile(reader);
             reader.close();
         }
         catch (IOException ioException) {
