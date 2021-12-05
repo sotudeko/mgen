@@ -29,8 +29,8 @@ public class Waivers implements CsvFileService  {
 
         for (JsonObject result : waivers.getValuesAs(JsonObject.class)) {
 
-            JsonObject waivers = result.getJsonObject(waiverType);
-            String applicationName = waivers.getString("publicId");
+            JsonObject waiverObj = result.getJsonObject(waiverType);
+            String applicationName = waiverObj.getString("publicId");
 
             JsonArray stages = result.getJsonArray("stages");
 

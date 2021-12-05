@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import javax.json.Json;
+import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,8 +16,8 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
 @Service
-public class NexusIQApiService {
-    private static final Logger log = LoggerFactory.getLogger(NexusIQApiService.class);
+public class NexusIQDataService {
+    private static final Logger log = LoggerFactory.getLogger(NexusIQDataService.class);
 
     @Value("${iq.url}")
     private String iqUrl;
@@ -30,7 +31,7 @@ public class NexusIQApiService {
     @Value("${iq.api}")
     private String iqApi;
 
-    public JsonReader makeReport(CsvFileService cfs, String endPoint, boolean report) throws IOException {
+    public JsonObject getData(String endPoint) throws IOException {
         String urlString = iqUrl + iqApi + endPoint;
         log.info("Fetching data from " + urlString);
 
@@ -43,25 +44,18 @@ public class NexusIQApiService {
         URLConnection urlConnection = url.openConnection();
         urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
 
-        JsonReader reader = null;
+        JsonObject dataObj = null;
 
         try {
             InputStream is = urlConnection.getInputStream();
-            reader = Json.createReader(is);
-
-            if (report){
-                cfs.makeCsvFile(reader);
-            }
-
+            JsonReader reader = Json.createReader(is);
+            dataObj = reader.readObject();
             reader.close();
         }
         catch (IOException ioException) {
             ioException.printStackTrace();
         }
 
-        return reader;
+        return dataObj;
     }
-
-
-
 }
