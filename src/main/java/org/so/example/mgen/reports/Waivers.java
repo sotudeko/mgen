@@ -17,17 +17,17 @@ public class Waivers implements CsvFileService  {
 
         JsonObject obj = reader.readObject();
 
-        JsonArray aw = obj.getJsonArray("applicationWaivers");
-        this.doWaivers("application", aw);
+        JsonArray applicationWaivers = obj.getJsonArray("applicationWaivers");
+        this.doWaivers("application", applicationWaivers);
 
-        JsonArray rw = obj.getJsonArray("repositoryWaivers");
-        this.doWaivers("repository", rw);
+        JsonArray repositoryWaivers = obj.getJsonArray("repositoryWaivers");
+        this.doWaivers("repository", repositoryWaivers);
 
     }
 
-    public void doWaivers(String waiverType, JsonArray componentWaivers){
+    public void doWaivers(String waiverType, JsonArray waivers){
 
-        for (JsonObject result : componentWaivers.getValuesAs(JsonObject.class)) {
+        for (JsonObject result : waivers.getValuesAs(JsonObject.class)) {
 
             JsonObject waivers = result.getJsonObject(waiverType);
             String applicationName = waivers.getString("publicId");
@@ -46,30 +46,19 @@ public class Waivers implements CsvFileService  {
                     JsonArray waivedPolicyViolations = componentViolation.getJsonArray("waivedPolicyViolations");
 
                     for (JsonObject waivedPolicyViolation : waivedPolicyViolations.getValuesAs(JsonObject.class)){
-                        JsonObject policyWaiver = waivedPolicyViolation.getJsonObject("policyWaiver");
-                        log.info((policyWaiver.toString()));
-
                         String policyName = waivedPolicyViolation.getString("policyName");
                         int threatLevel = waivedPolicyViolation.getInt("threatLevel");
 
-//                        if ((policyWaiver.containsKey("comment")) && (policyWaiver.getString("comment") != null)) {
-//                            String comment = policyWaiver.getString("comment");
-//                        }
+                        JsonObject policyWaiver = waivedPolicyViolation.getJsonObject("policyWaiver");
 
-//                        if (waivedPolicyViolation.containsKey("createTime")) {
-//                            String createTime = policyWaiver.getString("createTime");
-//                        }
-//
-//                        if (waivedPolicyViolation.containsKey("expiryTime")) {
-//                            String expiryTime = policyWaiver.getString("expiryTime");
-//                        }
+                        String comment = (policyWaiver.get("comment") != null) ? String.valueOf(policyWaiver.get("comment")) : "";
+                        String createTime = (policyWaiver.get("createTime") != null) ? String.valueOf(policyWaiver.get("createTime")) : "";
+                        String expiryTime = (policyWaiver.get("expiryTime") != null) ? String.valueOf(policyWaiver.get("expiryTime")) : "";
 
-                        //log.info(applicationName + ":" + stageId + ":" + packageUrl + ":" + policyName + ":" + threatLevel);
+                        log.info(applicationName + ":" + stageId + ":" + packageUrl + ":" + policyName + ":" + threatLevel + ":" + comment + ":" + createTime + ":" + expiryTime);
                     }
                 }
-
             }
-
         }
     }
 }
