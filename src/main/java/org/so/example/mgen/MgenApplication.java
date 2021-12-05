@@ -6,8 +6,8 @@ import org.so.example.mgen.reports.ApplicationEvaluations;
 import org.so.example.mgen.reports.Organizations;
 import org.so.example.mgen.reports.PolicyViolations;
 import org.so.example.mgen.reports.Waivers;
-import org.so.example.mgen.service.NexusIQApiService;
-import org.so.example.mgen.service.NexusIQDataService;
+import org.so.example.mgen.service.NexusIQApiReaderService;
+import org.so.example.mgen.service.NexusIQApiDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -22,10 +22,10 @@ public class MgenApplication implements CommandLineRunner {
 	private static final Logger log = LoggerFactory.getLogger(MgenApplication.class);
 
 	@Autowired
-	private NexusIQApiService nexusIQApiService;
+	private NexusIQApiReaderService nexusIQApiService;
 
 	@Autowired
-	private NexusIQDataService nexusIQDataService;
+	private NexusIQApiDataService nexusIQDataService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MgenApplication.class, args);
@@ -34,14 +34,14 @@ public class MgenApplication implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		nexusIQApiService.makeReport(new Organizations(), "/organizations", true);
-		nexusIQApiService.makeReport(new ApplicationEvaluations(), "/reports/applications", true);
-		nexusIQApiService.makeReport(new Waivers(), "/reports/components/waivers", true);
+		nexusIQApiService.makeReport(new Organizations(), "/organizations");
+		nexusIQApiService.makeReport(new ApplicationEvaluations(), "/reports/applications");
+		nexusIQApiService.makeReport(new Waivers(), "/reports/components/waivers");
 
 		JsonObject dataObj = nexusIQDataService.getData("/policies");
 		String policyIds = getPolicyIds(dataObj);
 		String policyViolationsEndpoint = "/policyViolations?" + policyIds;
-		nexusIQApiService.makeReport(new PolicyViolations(), policyViolationsEndpoint, true);
+		nexusIQApiService.makeReport(new PolicyViolations(), policyViolationsEndpoint);
 	}
 
 	private String getPolicyIds(JsonObject obj) {
@@ -49,17 +49,17 @@ public class MgenApplication implements CommandLineRunner {
 
 		JsonArray results = obj.getJsonArray("policies");
 
-		String p = "";
+		String policyIds = "";
 
 		for (JsonObject result : results.getValuesAs(JsonObject.class)) {
 			String id = result.getString("id");
 			String pname = result.getString("name");
 
-			p = p.concat("p=" + id + "&");
+			policyIds = policyIds.concat("p=" + id + "&");
 		}
 
-		p = this.removeLastChar(p);
-		return p;
+		policyIds = this.removeLastChar(policyIds);
+		return policyIds;
 	}
 
 	private String removeLastChar(String s) {
