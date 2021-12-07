@@ -22,5 +22,10 @@ public class AutoReleasedFromQuarantineSummary implements CsvFileService {
 
         log.info(autoReleaseQuarantineCountMTD + ":" + autoReleaseQuarantineCountYTD);
     }
-    
+
+    @Override
+    public void makeCsvFile(JsonObject reader) {
+
+    }
+
 }

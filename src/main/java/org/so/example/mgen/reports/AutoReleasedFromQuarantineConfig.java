@@ -24,6 +24,10 @@ public class AutoReleasedFromQuarantineConfig implements CsvFileService {
 
             log.info(id + ":" + name + ":" + autoReleaseQuarantineEnabled);
         }
+    }
+
+    @Override
+    public void makeCsvFile(JsonObject reader) {
 
     }
 }

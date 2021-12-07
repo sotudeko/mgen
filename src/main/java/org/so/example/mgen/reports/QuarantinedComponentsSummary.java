@@ -25,4 +25,9 @@ public class QuarantinedComponentsSummary implements CsvFileService {
 
         log.info(repositoryCount + ":" + quarantineEnabledRepositoryCount + ":" + quarantineEnabled + ":" + totalComponentCount + ":" + quarantinedComponentCount);
     }
+
+    @Override
+    public void makeCsvFile(JsonObject reader) {
+
+    }
 }

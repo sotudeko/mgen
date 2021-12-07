@@ -25,4 +25,9 @@ public class Organizations implements CsvFileService {
             log.info(id + " -> " + oname);
         }
     }
+
+    @Override
+    public void makeCsvFile(JsonObject reader) {
+
+    }
 }

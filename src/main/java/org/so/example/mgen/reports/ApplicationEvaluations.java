@@ -27,4 +27,9 @@ public class ApplicationEvaluations implements CsvFileService {
         }
 
     }
+
+    @Override
+    public void makeCsvFile(JsonObject reader) {
+
+    }
 }

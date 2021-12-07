@@ -25,6 +25,11 @@ public class Waivers implements CsvFileService  {
 
     }
 
+    @Override
+    public void makeCsvFile(JsonObject reader) {
+
+    }
+
     public void doWaivers(String waiverType, JsonArray waivers){
 
         for (JsonObject result : waivers.getValuesAs(JsonObject.class)) {

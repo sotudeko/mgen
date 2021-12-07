@@ -4,6 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.so.example.mgen.reports.*;
 import org.so.example.mgen.service.NexusIQApiReaderService;
+import org.so.example.mgen.service.NexusIQApiConnectionService;
 import org.so.example.mgen.util.PolicyIdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -21,6 +22,8 @@ public class MgenApplication implements CommandLineRunner {
 	@Autowired
 	private PolicyIdsService policyIdsService;
 
+	@Autowired
+	private NexusIQApiConnectionService nexusIQApiConnectionService;
 
 	public static void main(String[] args) {
 		SpringApplication.run(MgenApplication.class, args);
@@ -37,8 +40,8 @@ public class MgenApplication implements CommandLineRunner {
 		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineSummary(), "/firewall/releaseQuarantine/summary");
 		nexusIQApiService.makeReport(new QuarantinedComponentsSummary(), "/firewall/quarantine/summary");
 		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineConfig(), "/firewall/releaseQuarantine/configuration");
-//		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine?page=1&pageSize=10&policyId=384b7857d9b5424d91e00a0b945e3ec8&sortBy=releaseQuarantineTime&asc=true");
-//		nexusIQApiService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined?page=1&pageSize=10&policyId=384b7857d9b5424d91e00a0b945e3ec8&sortBy=releaseQuarantineTime&asc=true");
+		nexusIQApiConnectionService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined");
+		//nexusIQApiConnectionService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine");
 
 	}
 }
