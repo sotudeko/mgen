@@ -28,6 +28,5 @@ public class Organizations implements CsvFileService {
 
     @Override
     public void makeCsvFile(JsonObject reader) {
-
     }
 }

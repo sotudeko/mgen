@@ -16,8 +16,8 @@ import java.net.URLConnection;
 import java.nio.charset.StandardCharsets;
 
 @Service
-public class NexusIQApiConnectionService {
-    private static final Logger log = LoggerFactory.getLogger(NexusIQApiConnectionService.class);
+public class NexusIQAPIPagingService {
+    private static final Logger log = LoggerFactory.getLogger(NexusIQAPIPagingService.class);
 
     @Value("${iq.url}")
     private String iqUrl;
