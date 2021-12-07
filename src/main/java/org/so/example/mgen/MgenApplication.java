@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.so.example.mgen.reports.*;
 import org.so.example.mgen.service.NexusIQAPIPagingService;
 import org.so.example.mgen.service.NexusIQApiService;
-import org.so.example.mgen.util.PolicyIdsService;
+import org.so.example.mgen.service.PolicyIdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -42,6 +42,5 @@ public class MgenApplication implements CommandLineRunner {
 		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineConfig(), "/firewall/releaseQuarantine/configuration");
 		nexusIQAPIPagingService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined");
 		nexusIQAPIPagingService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine");
-
 	}
 }

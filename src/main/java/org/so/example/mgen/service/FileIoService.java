@@ -1,6 +1,6 @@
 package org.so.example.mgen.service;
 
-import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Value;
 
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -9,10 +9,12 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-@Service
 public class FileIoService {
 
-    public void writeCsvFile(String filename, List<String[]> data){
+    @Value("${data.dir}")
+    private String datadir;
+
+    public static void writeCsvFile(String filename, List<String[]> data){
         try {
             BufferedWriter writer = Files.newBufferedWriter(Paths.get(filename));
 
@@ -30,4 +32,5 @@ public class FileIoService {
 
         return;
     }
+
 }

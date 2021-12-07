@@ -1,8 +1,8 @@
-package org.so.example.mgen.util;
+package org.so.example.mgen.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.so.example.mgen.service.NexusIQApiDataService;
+import org.so.example.mgen.util.UtilService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.so.example.mgen.service.CsvFileService;
 import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.util.FilenameInfo;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.json.JsonArray;
@@ -15,14 +14,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ApplicationEvaluations  implements CsvFileService {
+public class ApplicationEvaluations implements CsvFileService {
     private static final Logger log = LoggerFactory.getLogger(ApplicationEvaluations.class);
-
-    @Autowired
-    private FileIoService fileIoService;
-
+    
     public void makeCsvFile(JsonReader reader) {
-        log.info("Making Application Evaluations report");
+        log.info("Making ApplicationEvaluations report");
 
         List<String[]> data = new ArrayList<>();
         data.add(FilenameInfo.applicationEvaluationsFileHeader);
@@ -35,11 +31,11 @@ public class ApplicationEvaluations  implements CsvFileService {
             String reportDataUrl = result.getString("reportDataUrl");
             String applicationName = reportDataUrl.split("/")[3];
 
-            log.info(stage + ":" + applicationName + ":" + evaluationDate);
-
             String[] line = {applicationName, evaluationDate, stage};
             data.add(line);
         }
+
+        FileIoService.writeCsvFile(FilenameInfo.applicationEvaluationsCsvFile,  data);
     }
 
     @Override

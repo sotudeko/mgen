@@ -13,7 +13,7 @@ public class Waivers implements CsvFileService  {
 
     @Override
     public void makeCsvFile(JsonReader reader) {
-        log.info("Making Waivers report");
+        log.info("Making QuarantinedComponentsSummary report");
 
         JsonObject obj = reader.readObject();
 
