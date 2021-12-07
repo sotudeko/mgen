@@ -17,10 +17,10 @@ public class QuarantinedComponents implements CsvFileService {
     }
 
     @Override
-    public void makeCsvFile(JsonObject reader) {
+    public void makeCsvFile(JsonObject dataObject) {
         log.info("Making QuarantinedComponents report");
 
-        JsonArray results = reader.getJsonArray("results");
+        JsonArray results = dataObject.getJsonArray("results");
 
         for (JsonObject result : results.getValuesAs(JsonObject.class)) {
             String displayName = result.getString("displayName");

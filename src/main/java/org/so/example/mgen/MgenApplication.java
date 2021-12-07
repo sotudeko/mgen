@@ -41,7 +41,7 @@ public class MgenApplication implements CommandLineRunner {
 		nexusIQApiService.makeReport(new QuarantinedComponentsSummary(), "/firewall/quarantine/summary");
 		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineConfig(), "/firewall/releaseQuarantine/configuration");
 		nexusIQApiConnectionService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined");
-		//nexusIQApiConnectionService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine");
+		nexusIQApiConnectionService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine");
 
 	}
 }

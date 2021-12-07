@@ -34,31 +34,31 @@ public class NexusIQApiConnectionService {
     public void makeReport(CsvFileService cfs, String endPoint) throws IOException {
 
         int page = 1;
-        int pageSize = 5;
+        int pageSize = 10;
         int pageCount = 0;
 
         JsonReader reader = null;
 
         try {
-            InputStream is = getConnection(endPoint, page, pageSize).getInputStream();
-            reader = Json.createReader(is);
-            JsonObject obj = reader.readObject();
+            do {
+                InputStream is = getConnection(endPoint, page, pageSize).getInputStream();
+                reader = Json.createReader(is);
+                JsonObject obj = reader.readObject();
 
-            page = obj.getInt("page");
-            pageSize = obj.getInt("pageSize");
-            pageCount = obj.getInt("pageCount");
+                page = obj.getInt("page");
+                pageSize = obj.getInt("pageSize");
+                pageCount = obj.getInt("pageCount");
 
-            while (page <= pageCount) {
                 log.info(("page number: " + page + "(" + pageCount + ")"));
                 cfs.makeCsvFile(obj);
                 page += 1;
-            }
+            } while (page <= pageCount);
         }
         catch (IOException ioException) {
             ioException.printStackTrace();
         }
         finally {
-            //reader.close();
+            reader.close();
         }
 
         return;

@@ -13,9 +13,13 @@ public class AutoReleasedFromQuarantineComponents implements CsvFileService {
 
     @Override
     public void makeCsvFile(JsonReader reader) {
+    }
+
+    @Override
+    public void makeCsvFile(JsonObject dataObject) {
         log.info("Making AutoReleasedFromQuarantineComponents report");
 
-        JsonArray results = reader.readArray();
+        JsonArray results = dataObject.getJsonArray("results");
 
         for (JsonObject result : results.getValuesAs(JsonObject.class)) {
             String displayName = result.getString("displayName");
@@ -25,11 +29,5 @@ public class AutoReleasedFromQuarantineComponents implements CsvFileService {
 
             log.info(displayName + ":" + repository + ":" + quarantineDate);
         }
-
-    }
-
-    @Override
-    public void makeCsvFile(JsonObject reader) {
-
     }
 }
