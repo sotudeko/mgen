@@ -2,19 +2,13 @@ package org.so.example.mgen;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.so.example.mgen.reports.ApplicationEvaluations;
-import org.so.example.mgen.reports.Organizations;
-import org.so.example.mgen.reports.PolicyViolations;
-import org.so.example.mgen.reports.Waivers;
+import org.so.example.mgen.reports.*;
 import org.so.example.mgen.service.NexusIQApiReaderService;
-import org.so.example.mgen.service.NexusIQApiDataService;
+import org.so.example.mgen.util.PolicyIdsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-
-import javax.json.JsonArray;
-import javax.json.JsonObject;
 
 
 @SpringBootApplication
@@ -25,7 +19,8 @@ public class MgenApplication implements CommandLineRunner {
 	private NexusIQApiReaderService nexusIQApiService;
 
 	@Autowired
-	private NexusIQApiDataService nexusIQDataService;
+	private PolicyIdsService policyIdsService;
+
 
 	public static void main(String[] args) {
 		SpringApplication.run(MgenApplication.class, args);
@@ -37,34 +32,13 @@ public class MgenApplication implements CommandLineRunner {
 		nexusIQApiService.makeReport(new Organizations(), "/organizations");
 		nexusIQApiService.makeReport(new ApplicationEvaluations(), "/reports/applications");
 		nexusIQApiService.makeReport(new Waivers(), "/reports/components/waivers");
+		nexusIQApiService.makeReport(new PolicyViolations(), policyIdsService.getPolicyIdsEndpoint());
 
-		JsonObject dataObj = nexusIQDataService.getData("/policies");
-		String policyIds = getPolicyIds(dataObj);
-		String policyViolationsEndpoint = "/policyViolations?" + policyIds;
-		nexusIQApiService.makeReport(new PolicyViolations(), policyViolationsEndpoint);
-	}
+		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineSummary(), "/firewall/releaseQuarantine/summary");
+		nexusIQApiService.makeReport(new QuarantinedComponentsSummary(), "/firewall/quarantine/summary");
+		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineConfig(), "/firewall/releaseQuarantine/configuration");
+//		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine?page=1&pageSize=10&policyId=384b7857d9b5424d91e00a0b945e3ec8&sortBy=releaseQuarantineTime&asc=true");
+//		nexusIQApiService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined?page=1&pageSize=10&policyId=384b7857d9b5424d91e00a0b945e3ec8&sortBy=releaseQuarantineTime&asc=true");
 
-	private String getPolicyIds(JsonObject obj) {
-		log.info("Getting policy ids");
-
-		JsonArray results = obj.getJsonArray("policies");
-
-		String policyIds = "";
-
-		for (JsonObject result : results.getValuesAs(JsonObject.class)) {
-			String id = result.getString("id");
-			String pname = result.getString("name");
-
-			policyIds = policyIds.concat("p=" + id + "&");
-		}
-
-		policyIds = this.removeLastChar(policyIds);
-		return policyIds;
-	}
-
-	private String removeLastChar(String s) {
-		return (s == null || s.length() == 0)
-				? null
-				: (s.substring(0, s.length() - 1));
 	}
 }
