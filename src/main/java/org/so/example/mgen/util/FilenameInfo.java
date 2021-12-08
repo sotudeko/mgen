@@ -12,7 +12,7 @@ public class FilenameInfo {
     public static final String[] waiversFileHeader = {"Application Name", "Stage", "Package Url", "Policy Name", "Threat Level", "Comment", "Create Date", "Expiry Time"};
 
     public static final String quarantinedComponentsCsvFile = "quarantinedComponents.csv";
-    public static final String[] quarantinedComponentsFileHeader = {"Id", "Name"};
+    public static final String[] quarantinedComponentsFileHeader = {"Package Url", "Repository", "Time"};
 
     public static final String autoReleasedFromQuarantineComponentsCsvFile = "autoReleasedFromQuarantineComponents.csv";
     public static final String[] autoReleasedFromQuarantineComponentsFileHeader = {"Application Name", "Evaluation Date", "Stage"};

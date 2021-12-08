@@ -19,7 +19,7 @@ public class QuarantinedComponentsSummary implements CsvFileService {
         log.info("Making QuarantinedComponentsSummary report");
 
         List<String[]> data = new ArrayList<>();
-        data.add(FilenameInfo.quarantinedComponentsFileHeader);
+        data.add(FilenameInfo.quarantinedComponentsSummaryFileHeader);
 
         JsonObject dataObj = reader.readObject();
 
@@ -39,7 +39,7 @@ public class QuarantinedComponentsSummary implements CsvFileService {
 
         data.add(line);
 
-        f.writeCsvFile(FilenameInfo.quarantinedComponentsCsvFile,  data);
+        f.writeCsvFile(FilenameInfo.quarantinedComponentsSummaryCsvFile, data);
     }
 
     @Override
