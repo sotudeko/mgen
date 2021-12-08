@@ -3,7 +3,6 @@ package org.so.example.mgen.reports;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.so.example.mgen.service.CsvFileService;
-import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.util.FilenameInfo;
 
 import javax.json.JsonArray;
@@ -33,7 +32,7 @@ public class ApplicationEvaluations implements CsvFileService {
             data.add(line);
         }
 
-        FileIoService.writeCsvFile(FilenameInfo.applicationEvaluationsCsvFile,  data);
+        //FileIoService.writeCsvFile(FilenameInfo.applicationEvaluationsCsvFile,  data);
     }
 
     @Override

@@ -3,7 +3,6 @@ package org.so.example.mgen.reports;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.so.example.mgen.service.CsvFileService;
-import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.util.FilenameInfo;
 
 import javax.json.JsonObject;
@@ -29,7 +28,7 @@ public class AutoReleasedFromQuarantineSummary implements CsvFileService {
         String[] line = {String.valueOf(autoReleaseQuarantineCountMTD), String.valueOf(autoReleaseQuarantineCountYTD)};
         data.add(line);
 
-        FileIoService.writeCsvFile(FilenameInfo.autoReleasedFromQuarantineSummaryCsvFile,  data);
+        //FileIoService.writeCsvFile(FilenameInfo.autoReleasedFromQuarantineSummaryCsvFile,  data);
     }
 
     @Override

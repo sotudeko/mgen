@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
 
 
 @Service
@@ -20,7 +22,17 @@ public class PolicyIdsService {
 
 	@Autowired
 	private UtilService utilService;
-    
+
+	private static List<String> securityPolicies = Arrays.asList("Security-Critical",
+																 "Security-High",
+																 "Security-Medium",
+																 "Security-Malicious",
+																 "Security-Namespace Conflict",
+																 "Integrity-Rating");
+
+	private static List<String> licensePolicies = Arrays.asList("License-Banned",
+																"License-None",
+																"License-Copyleft");
 
     public String getPolicyIdsEndpoint() throws IOException{
         JsonObject dataObj = nexusIQDataService.getData("/policies");
@@ -40,11 +52,22 @@ public class PolicyIdsService {
 			String id = result.getString("id");
 			String pname = result.getString("name");
 
-			policyIds = policyIds.concat("p=" + id + "&");
+			//if (isSecurityPolicy(pname) || isLicensePolicy(pname)){
+				policyIds = policyIds.concat("p=" + id + "&");
+			//}
 		}
 
 		policyIds = utilService.removeLastChar(policyIds);
 		return policyIds;
 	}
-    
+
+	public static boolean isSecurityPolicy(String policyName){
+		final boolean contains = securityPolicies.contains(policyName);
+		return contains;
+	}
+
+	public static boolean isLicensePolicy(String policyName){
+		final boolean contains = licensePolicies.contains(policyName);
+		return contains;
+	}
 }

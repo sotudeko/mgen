@@ -2,9 +2,10 @@ package org.so.example.mgen.reports;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.so.example.mgen.service.CsvFileService;
 import org.so.example.mgen.service.FileIoService;
+import org.so.example.mgen.service.MetricsFileService;
 import org.so.example.mgen.util.FilenameInfo;
+import org.springframework.stereotype.Service;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -12,11 +13,12 @@ import javax.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Organizations implements CsvFileService {
+@Service
+public class Organizations implements MetricsFileService {
     private static final Logger log = LoggerFactory.getLogger(Organizations.class);
 
     @Override
-    public void makeCsvFile(JsonReader reader) {
+    public void makeCsvFile(FileIoService f, JsonReader reader) {
         log.info("Making Organizations report");
 
         List<String[]> data = new ArrayList<>();
@@ -33,10 +35,13 @@ public class Organizations implements CsvFileService {
             data.add(line);
         }
 
-        FileIoService.writeCsvFile(FilenameInfo.organizationsCsvFile,  data);
+        f.writeCsvFile(FilenameInfo.organizationsCsvFile,  data);
     }
 
+
+
     @Override
-    public void makeCsvFile(JsonObject reader) {
+    public void makeCsvFile(FileIoService f, JsonObject reader) {
+
     }
 }

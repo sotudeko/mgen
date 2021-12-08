@@ -57,4 +57,32 @@ public class NexusIQApiService {
 
         return;
     }
+
+    public void makeReport(FileIoService f, MetricsFileService cfs, String endPoint) throws IOException {
+        String urlString = iqUrl + iqApi + endPoint;
+        log.info("Fetching data from " + urlString);
+
+        URL url = new URL(urlString);
+
+        String authString = iqUser + ":" + iqPasswd;
+        byte[] encodedAuth = Base64.encodeBase64(authString.getBytes(StandardCharsets.ISO_8859_1));
+        String authStringEnc = new String(encodedAuth);
+
+        URLConnection urlConnection = url.openConnection();
+        urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
+
+        try {
+            InputStream is = urlConnection.getInputStream();
+            JsonReader reader = Json.createReader(is);
+
+            cfs.makeCsvFile(f, reader);
+
+            reader.close();
+        }
+        catch (IOException ioException) {
+            ioException.printStackTrace();
+        }
+
+        return;
+    }
 }

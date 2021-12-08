@@ -50,7 +50,7 @@ public class NexusIQAPIPagingService {
                 pageCount = obj.getInt("pageCount");
 
                 //log.info(("page number: " + page + "(" + pageCount + ")"));
-                
+
                 cfs.makeCsvFile(obj);
                 page += 1;
             } while (page <= pageCount);
