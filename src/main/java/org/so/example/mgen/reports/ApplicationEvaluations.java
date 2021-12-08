@@ -5,7 +5,6 @@ import org.slf4j.LoggerFactory;
 import org.so.example.mgen.service.CsvFileService;
 import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.util.FilenameInfo;
-import org.springframework.stereotype.Service;
 
 import javax.json.JsonArray;
 import javax.json.JsonObject;
@@ -13,10 +12,9 @@ import javax.json.JsonReader;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
 public class ApplicationEvaluations implements CsvFileService {
     private static final Logger log = LoggerFactory.getLogger(ApplicationEvaluations.class);
-    
+
     public void makeCsvFile(JsonReader reader) {
         log.info("Making ApplicationEvaluations report");
 

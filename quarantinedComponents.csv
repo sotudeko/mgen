@@ -1,0 +1,4 @@
+Id,Name
+com.sonatype.clm : clm-maven-plugin : 2.19.0-01,maven-central-fw,2021-10-13T11:11:43.500+0000
+com.sonatype.clm : clm-maven-plugin : 2.18.0-01,maven-central-fw,2021-10-13T11:11:46.325+0000
+org.apache.maven.plugins : maven-jar-plugin : 2.4,maven-central-fw,2021-11-18T17:40:38.953+0000

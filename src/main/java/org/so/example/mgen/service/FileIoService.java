@@ -9,7 +9,7 @@ import java.nio.file.Paths;
 import java.util.Arrays;
 import java.util.List;
 
-public class FileIoService {
+public class  FileIoService {
 
     @Value("${data.dir}")
     private String datadir;

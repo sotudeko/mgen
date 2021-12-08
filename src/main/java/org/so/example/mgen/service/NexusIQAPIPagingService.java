@@ -49,7 +49,8 @@ public class NexusIQAPIPagingService {
                 pageSize = obj.getInt("pageSize");
                 pageCount = obj.getInt("pageCount");
 
-                log.info(("page number: " + page + "(" + pageCount + ")"));
+                //log.info(("page number: " + page + "(" + pageCount + ")"));
+                
                 cfs.makeCsvFile(obj);
                 page += 1;
             } while (page <= pageCount);
