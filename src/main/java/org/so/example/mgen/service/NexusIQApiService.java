@@ -3,6 +3,7 @@ package org.so.example.mgen.service;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +18,9 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class NexusIQApiService {
     private static final Logger log = LoggerFactory.getLogger(NexusIQApiService.class);
+
+    @Autowired
+    private FileIoService fileIoService;
 
     @Value("${iq.url}")
     private String iqUrl;
@@ -47,7 +51,7 @@ public class NexusIQApiService {
             InputStream is = urlConnection.getInputStream();
             JsonReader reader = Json.createReader(is);
 
-            cfs.makeCsvFile(reader);
+            cfs.makeCsvFile(fileIoService, reader);
 
             reader.close();
         }
@@ -58,31 +62,5 @@ public class NexusIQApiService {
         return;
     }
 
-    public void makeReport(FileIoService f, MetricsFileService cfs, String endPoint) throws IOException {
-        String urlString = iqUrl + iqApi + endPoint;
-        log.info("Fetching data from " + urlString);
 
-        URL url = new URL(urlString);
-
-        String authString = iqUser + ":" + iqPasswd;
-        byte[] encodedAuth = Base64.encodeBase64(authString.getBytes(StandardCharsets.ISO_8859_1));
-        String authStringEnc = new String(encodedAuth);
-
-        URLConnection urlConnection = url.openConnection();
-        urlConnection.setRequestProperty("Authorization", "Basic " + authStringEnc);
-
-        try {
-            InputStream is = urlConnection.getInputStream();
-            JsonReader reader = Json.createReader(is);
-
-            cfs.makeCsvFile(f, reader);
-
-            reader.close();
-        }
-        catch (IOException ioException) {
-            ioException.printStackTrace();
-        }
-
-        return;
-    }
 }

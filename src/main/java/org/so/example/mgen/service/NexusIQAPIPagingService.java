@@ -3,6 +3,7 @@ package org.so.example.mgen.service;
 import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +19,9 @@ import java.nio.charset.StandardCharsets;
 @Service
 public class NexusIQAPIPagingService {
     private static final Logger log = LoggerFactory.getLogger(NexusIQAPIPagingService.class);
+
+    @Autowired
+    private FileIoService fileIoService;
 
     @Value("${iq.url}")
     private String iqUrl;
@@ -51,7 +55,7 @@ public class NexusIQAPIPagingService {
 
                 //log.info(("page number: " + page + "(" + pageCount + ")"));
 
-                cfs.makeCsvFile(obj);
+                cfs.makeCsvFile(fileIoService, obj);
                 page += 1;
             } while (page <= pageCount);
         }

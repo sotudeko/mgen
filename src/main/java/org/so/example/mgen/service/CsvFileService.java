@@ -7,6 +7,6 @@ import javax.json.JsonReader;
 
 @Service
 public interface CsvFileService {
-    public void makeCsvFile(JsonReader reader);
-    public void makeCsvFile(JsonObject reader);
+    public void makeCsvFile(FileIoService f, JsonReader r);
+    public void makeCsvFile(FileIoService f, JsonObject o);
 }

@@ -3,6 +3,7 @@ package org.so.example.mgen.reports;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.so.example.mgen.service.CsvFileService;
+import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.util.FilenameInfo;
 
 import javax.json.JsonObject;
@@ -14,7 +15,7 @@ public class QuarantinedComponentsSummary implements CsvFileService {
     private static final Logger log = LoggerFactory.getLogger(QuarantinedComponentsSummary.class);
 
     @Override
-    public void makeCsvFile(JsonReader reader) {
+    public void makeCsvFile(FileIoService f, JsonReader reader) {
         log.info("Making QuarantinedComponentsSummary report");
 
         List<String[]> data = new ArrayList<>();
@@ -38,11 +39,11 @@ public class QuarantinedComponentsSummary implements CsvFileService {
 
         data.add(line);
 
-        //FileIoService.writeCsvFile(FilenameInfo.quarantinedComponentsCsvFile,  data);
+        f.writeCsvFile(FilenameInfo.quarantinedComponentsCsvFile,  data);
     }
 
     @Override
-    public void makeCsvFile(JsonObject reader) {
+    public void makeCsvFile(FileIoService f, JsonObject reader) {
 
     }
 }

@@ -2,8 +2,8 @@ package org.so.example.mgen.reports;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.so.example.mgen.service.CsvFileService;
 import org.so.example.mgen.service.FileIoService;
-import org.so.example.mgen.service.MetricsFileService;
 import org.so.example.mgen.util.FilenameInfo;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class Organizations implements MetricsFileService {
+public class Organizations implements CsvFileService {
     private static final Logger log = LoggerFactory.getLogger(Organizations.class);
 
     @Override
@@ -37,8 +37,6 @@ public class Organizations implements MetricsFileService {
 
         f.writeCsvFile(FilenameInfo.organizationsCsvFile,  data);
     }
-
-
 
     @Override
     public void makeCsvFile(FileIoService f, JsonObject reader) {

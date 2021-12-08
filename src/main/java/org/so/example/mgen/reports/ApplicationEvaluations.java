@@ -3,6 +3,7 @@ package org.so.example.mgen.reports;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.so.example.mgen.service.CsvFileService;
+import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.util.FilenameInfo;
 
 import javax.json.JsonArray;
@@ -14,7 +15,7 @@ import java.util.List;
 public class ApplicationEvaluations implements CsvFileService {
     private static final Logger log = LoggerFactory.getLogger(ApplicationEvaluations.class);
 
-    public void makeCsvFile(JsonReader reader) {
+    public void makeCsvFile(FileIoService f, JsonReader reader) {
         log.info("Making ApplicationEvaluations report");
 
         List<String[]> data = new ArrayList<>();
@@ -32,10 +33,10 @@ public class ApplicationEvaluations implements CsvFileService {
             data.add(line);
         }
 
-        //FileIoService.writeCsvFile(FilenameInfo.applicationEvaluationsCsvFile,  data);
+        f.writeCsvFile(FilenameInfo.applicationEvaluationsCsvFile,  data);
     }
 
     @Override
-    public void makeCsvFile(JsonObject reader) {
+    public void makeCsvFile(FileIoService f, JsonObject reader) {
     }
 }

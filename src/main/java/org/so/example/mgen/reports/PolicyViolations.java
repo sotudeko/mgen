@@ -3,6 +3,7 @@ package org.so.example.mgen.reports;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.so.example.mgen.service.CsvFileService;
+import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.service.PolicyIdsService;
 import org.so.example.mgen.util.FilenameInfo;
 import org.so.example.mgen.util.UtilService;
@@ -21,7 +22,7 @@ public class PolicyViolations implements CsvFileService {
     PolicyIdsService  policyIdsService;
 
     @Override
-    public void makeCsvFile(JsonReader reader) {
+    public void makeCsvFile(FileIoService f, JsonReader reader) {
         log.info("Make Policy Violations Report");
 
         List<String[]> data = new ArrayList<>();
@@ -63,10 +64,11 @@ public class PolicyViolations implements CsvFileService {
                     }
 
                     String[] line = {policyName, reason, applicationPublicId, openTime, packageUrl, stage};
+                    data.add(line);
                 }
             }
 
-            //FileIoService.writeCsvFile(FilenameInfo.policyViolationsCsvFile,  data);
+            f.writeCsvFile(FilenameInfo.policyViolationsCsvFile,  data);
         }
     }
 
@@ -117,7 +119,7 @@ public class PolicyViolations implements CsvFileService {
     }
 
     @Override
-    public void makeCsvFile(JsonObject reader) {
+    public void makeCsvFile(FileIoService f, JsonObject reader) {
 
     }
 }
