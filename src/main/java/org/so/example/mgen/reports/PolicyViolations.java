@@ -67,9 +67,9 @@ public class PolicyViolations implements CsvFileService {
                     data.add(line);
                 }
             }
-
-            f.writeCsvFile(FilenameInfo.policyViolationsCsvFile,  data);
         }
+
+        f.writeCsvFile(FilenameInfo.policyViolationsCsvFile,  data);
     }
 
     private String getCVE(JsonArray reasons) {

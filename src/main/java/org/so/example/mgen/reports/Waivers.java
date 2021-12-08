@@ -67,7 +67,7 @@ public class Waivers implements CsvFileService  {
                         String createTime = (policyWaiver.get("createTime") != null) ? String.valueOf(policyWaiver.get("createTime")) : "";
                         String expiryTime = (policyWaiver.get("expiryTime") != null) ? String.valueOf(policyWaiver.get("expiryTime")) : "";
 
-                        log.info(applicationName + ":" + stageId + ":" + packageUrl + ":" + policyName + ":" + threatLevel + ":" + comment + ":" + createTime + ":" + expiryTime);
+                        //log.info(applicationName + ":" + stageId + ":" + packageUrl + ":" + policyName + ":" + threatLevel + ":" + comment + ":" + createTime + ":" + expiryTime);
                     }
                 }
             }

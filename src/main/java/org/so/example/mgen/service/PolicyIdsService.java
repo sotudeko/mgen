@@ -52,9 +52,9 @@ public class PolicyIdsService {
 			String id = result.getString("id");
 			String pname = result.getString("name");
 
-			//if (isSecurityPolicy(pname) || isLicensePolicy(pname)){
+			if (this.isSecurityPolicy(pname) || this.isLicensePolicy(pname)){
 				policyIds = policyIds.concat("p=" + id + "&");
-			//}
+			}
 		}
 
 		policyIds = utilService.removeLastChar(policyIds);

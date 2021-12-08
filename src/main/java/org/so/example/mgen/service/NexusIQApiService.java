@@ -36,7 +36,7 @@ public class NexusIQApiService {
 
     public void makeReport(CsvFileService cfs, String endPoint) throws IOException {
         String urlString = iqUrl + iqApi + endPoint;
-        log.info("Fetching data from " + urlString);
+        //log.info("Fetching data from " + urlString);
 
         URL url = new URL(urlString);
 

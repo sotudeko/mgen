@@ -1,5 +1,6 @@
 package org.so.example.mgen.service;
 
+import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.so.example.mgen.reports.ApplicationEvaluations;
@@ -47,8 +48,8 @@ public class FileIoService {
     }
 
     public void initMetricsDir() throws IOException {
-        deleteDirectory(metricsDir);
-        Files.createDirectories(Paths.get(metricsDir));
+        FileUtils.deleteDirectory(new File(metricsDir));
+        Files.createDirectory(Paths.get(metricsDir));
         return;
     }
 

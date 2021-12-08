@@ -74,7 +74,7 @@ public class NexusIQAPIPagingService {
         String query = endPoint + "?" + "page=" + page + "&pageSize=" + pageSize + "&asc=true";
 
         String urlString = iqUrl + iqApi + query;
-        log.info("Fetching data from " + urlString);
+        //log.info("Fetching data from " + urlString);
 
         URL url = new URL(urlString);
 
