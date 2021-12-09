@@ -25,11 +25,15 @@ public class Waivers implements CsvFileService  {
         JsonObject obj = reader.readObject();
 
         JsonArray applicationWaivers = obj.getJsonArray("applicationWaivers");
-        this.doWaivers("application", applicationWaivers);
+        List<String[]> aw = this.doWaivers("application", applicationWaivers);
 
         JsonArray repositoryWaivers = obj.getJsonArray("repositoryWaivers");
-        this.doWaivers("repository", repositoryWaivers);
+        List<String[]> rw = this.doWaivers("repository", repositoryWaivers);
 
+        data.addAll(aw);
+        data.addAll(rw);
+
+        f.writeCsvFile(FilenameInfo.waiversCsvFile, data);
     }
 
     @Override
@@ -37,7 +41,9 @@ public class Waivers implements CsvFileService  {
 
     }
 
-    public void doWaivers(String waiverType, JsonArray waivers){
+    public List<String[]> doWaivers(String waiverType, JsonArray waivers){
+
+        List<String[]> data = new ArrayList<>();
 
         for (JsonObject result : waivers.getValuesAs(JsonObject.class)) {
 
@@ -67,10 +73,13 @@ public class Waivers implements CsvFileService  {
                         String createTime = (policyWaiver.get("createTime") != null) ? String.valueOf(policyWaiver.get("createTime")) : "";
                         String expiryTime = (policyWaiver.get("expiryTime") != null) ? String.valueOf(policyWaiver.get("expiryTime")) : "";
 
-                        //log.info(applicationName + ":" + stageId + ":" + packageUrl + ":" + policyName + ":" + threatLevel + ":" + comment + ":" + createTime + ":" + expiryTime);
+                        String[] line = {applicationName, stageId, packageUrl, policyName, String.valueOf(threatLevel), comment, createTime, expiryTime};
+                        data.add(line);
                     }
                 }
             }
         }
+
+        return data;
     }
 }
