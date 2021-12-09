@@ -39,7 +39,6 @@ public class MgenApplication implements CommandLineRunner {
 
 		fileIoService.initMetricsDir();
 
-		nexusIQApiService.makeReport(new Organizations(), "/organizations");
 		nexusIQApiService.makeReport(new ApplicationEvaluations(), "/reports/applications");
 		nexusIQApiService.makeReport(new Waivers(), "/reports/components/waivers");
 		nexusIQApiService.makeReport(new PolicyViolations(), policyIdsService.getPolicyIdsEndpoint());
