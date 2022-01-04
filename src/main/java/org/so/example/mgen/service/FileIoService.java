@@ -17,6 +17,11 @@ import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
+import java.nio.file.StandardCopyOption;
+
+import org.apache.tomcat.util.http.fileupload.IOUtils;
+import java.io.InputStream;
+
 
 @Service
 public class FileIoService {
@@ -24,6 +29,10 @@ public class FileIoService {
 
     @Value("${metrics.dir}")
     private String metricsDir;
+
+    @Value("${data.successmetrics}")
+	private String successmetricsFile;
+
 
     public void writeCsvFile(String filename, List<String[]> data){
 
@@ -75,5 +84,12 @@ public class FileIoService {
 
         return;
     }
+    
+    public void writeSuccessMetricsFile(InputStream content) throws IOException {
+	    File outputFile = new File(metricsDir + File.separator + successmetricsFile);
+	    java.nio.file.Files.copy(content, outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
+	    IOUtils.closeQuietly(content);
+		return;
+	}
 
 }

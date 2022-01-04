@@ -6,8 +6,10 @@ import org.so.example.mgen.reports.*;
 import org.so.example.mgen.service.FileIoService;
 import org.so.example.mgen.service.NexusIQAPIPagingService;
 import org.so.example.mgen.service.NexusIQApiService;
+import org.so.example.mgen.service.NexusIQSuccessMetrics;
 import org.so.example.mgen.service.PolicyIdsService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -29,6 +31,13 @@ public class MgenApplication implements CommandLineRunner {
 	@Autowired
 	private FileIoService fileIoService;
 
+	@Autowired
+	private NexusIQSuccessMetrics nexusIQSuccessMetrics;
+
+	@Value("${iq.sm.period}")
+	private String iqSmPeriod;
+
+	
 	public static void main(String[] args) {
 		SpringApplication.run(MgenApplication.class, args);
 	}
@@ -39,13 +48,19 @@ public class MgenApplication implements CommandLineRunner {
 
 		fileIoService.initMetricsDir();
 
+		nexusIQSuccessMetrics.createSmDatafile(iqSmPeriod);
+
 		nexusIQApiService.makeReport(new ApplicationEvaluations(), "/reports/applications");
 		nexusIQApiService.makeReport(new Waivers(), "/reports/components/waivers");
 		nexusIQApiService.makeReport(new PolicyViolations(), policyIdsService.getPolicyIdsEndpoint());
-		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineSummary(), "/firewall/releaseQuarantine/summary");
-		nexusIQApiService.makeReport(new QuarantinedComponentsSummary(), "/firewall/quarantine/summary");
+		
+		// Firewall reports
+		
 		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineConfig(), "/firewall/releaseQuarantine/configuration");
 
+		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineSummary(), "/firewall/releaseQuarantine/summary");
+		nexusIQApiService.makeReport(new QuarantinedComponentsSummary(), "/firewall/quarantine/summary");
+		
 		nexusIQAPIPagingService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined");
 		nexusIQAPIPagingService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine");
 	}
