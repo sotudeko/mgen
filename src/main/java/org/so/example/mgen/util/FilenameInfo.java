@@ -5,6 +5,8 @@ import org.springframework.stereotype.Component;
 @Component
 public class FilenameInfo {
 
+    public static final String successMetricsCsvFile = "successmetrics.csv";
+
     public static final String applicationEvaluationsCsvFile = "applicationevaluations.csv";
     public static final String[] applicationEvaluationsFileHeader = {"Application Name", "Evaluation Date", "Stage"};
 

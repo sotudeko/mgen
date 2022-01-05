@@ -34,8 +34,22 @@ public class MgenApplication implements CommandLineRunner {
 	@Autowired
 	private NexusIQSuccessMetrics nexusIQSuccessMetrics;
 
-	@Value("${iq.sm.period}")
-	private String iqSmPeriod;
+
+	@Value("${metrics.successmetrics}")
+    private boolean successmetrics;
+
+	@Value("${metrics.applicationsevaluations}")
+    private boolean applicationsevaluations;
+
+	@Value("${metrics.waivers}")
+    private boolean waivers;
+
+	@Value("${metrics.policyviolations}")
+    private boolean policyviolations;
+
+	@Value("${metrics.firewall}")
+    private boolean firewall;
+
 
 	
 	public static void main(String[] args) {
@@ -48,20 +62,30 @@ public class MgenApplication implements CommandLineRunner {
 
 		fileIoService.initMetricsDir();
 
-		nexusIQSuccessMetrics.createSmDatafile(iqSmPeriod);
+		if (successmetrics){
+			nexusIQSuccessMetrics.createSuccessMetricsCsvFile();
+		}
 
-		nexusIQApiService.makeReport(new ApplicationEvaluations(), "/reports/applications");
-		nexusIQApiService.makeReport(new Waivers(), "/reports/components/waivers");
-		nexusIQApiService.makeReport(new PolicyViolations(), policyIdsService.getPolicyIdsEndpoint());
-		
-		// Firewall reports
-		
-		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineConfig(), "/firewall/releaseQuarantine/configuration");
+		if (applicationsevaluations){
+			nexusIQApiService.makeReport(new ApplicationEvaluations(), "/reports/applications");
+		}
 
-		nexusIQApiService.makeReport(new AutoReleasedFromQuarantineSummary(), "/firewall/releaseQuarantine/summary");
-		nexusIQApiService.makeReport(new QuarantinedComponentsSummary(), "/firewall/quarantine/summary");
-		
-		nexusIQAPIPagingService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined");
-		nexusIQAPIPagingService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine");
+		if (waivers){
+			nexusIQApiService.makeReport(new Waivers(), "/reports/components/waivers");
+		}
+
+		if (policyviolations){
+			nexusIQApiService.makeReport(new PolicyViolations(), policyIdsService.getPolicyIdsEndpoint());
+		}
+				
+		if(firewall){
+			nexusIQApiService.makeReport(new AutoReleasedFromQuarantineConfig(), "/firewall/releaseQuarantine/configuration");
+
+			nexusIQApiService.makeReport(new AutoReleasedFromQuarantineSummary(), "/firewall/releaseQuarantine/summary");
+			nexusIQApiService.makeReport(new QuarantinedComponentsSummary(), "/firewall/quarantine/summary");
+			
+			nexusIQAPIPagingService.makeReport(new QuarantinedComponents(), "/firewall/components/quarantined");
+			nexusIQAPIPagingService.makeReport(new AutoReleasedFromQuarantineComponents(), "/firewall/components/autoReleasedFromQuarantine");
+		}
 	}
 }

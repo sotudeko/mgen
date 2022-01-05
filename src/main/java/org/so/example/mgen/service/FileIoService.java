@@ -3,7 +3,7 @@ package org.so.example.mgen.service;
 import org.apache.tomcat.util.http.fileupload.FileUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.so.example.mgen.reports.ApplicationEvaluations;
+import org.so.example.mgen.util.FilenameInfo;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
@@ -25,13 +25,10 @@ import java.io.InputStream;
 
 @Service
 public class FileIoService {
-    private static final Logger log = LoggerFactory.getLogger(ApplicationEvaluations.class);
+    private static final Logger log = LoggerFactory.getLogger(FileIoService.class);
 
-    @Value("${metrics.dir}")
+    @Value("${metrics.outputdir}")
     private String metricsDir;
-
-    @Value("${data.successmetrics}")
-	private String successmetricsFile;
 
 
     public void writeCsvFile(String filename, List<String[]> data){
@@ -86,9 +83,10 @@ public class FileIoService {
     }
     
     public void writeSuccessMetricsFile(InputStream content) throws IOException {
-	    File outputFile = new File(metricsDir + File.separator + successmetricsFile);
+	    File outputFile = new File(metricsDir + File.separator + FilenameInfo.successMetricsCsvFile);
 	    java.nio.file.Files.copy(content, outputFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
 	    IOUtils.closeQuietly(content);
+        log.info("Created file: " + outputFile.toPath());
 		return;
 	}
 

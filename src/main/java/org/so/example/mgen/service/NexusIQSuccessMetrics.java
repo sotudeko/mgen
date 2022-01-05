@@ -41,9 +41,6 @@ public class NexusIQSuccessMetrics {
 	@Autowired
 	private FileIoService fileIoService;
 	
-	@Value("${iq.sm.period}")
-	private String iqSmPeriod;
-
 	@Value("${iq.url}")
 	private String iqUrl;
 
@@ -53,25 +50,33 @@ public class NexusIQSuccessMetrics {
 	@Value("${iq.passwd}")
 	private String iqPwd;
 
-	@Value("${iq.api.payload.timeperiod.first}")
+	@Value("${iq.api.sm.period}")
+	private String iqSmPeriod;
+
+	@Value("${iq.api.sm.payload.timeperiod.first}")
 	private String iqApiFirstTimePeriod;
 	
-	@Value("${iq.api.payload.timeperiod.last}")
+	@Value("${iq.api.sm.payload.timeperiod.last}")
 	private String iqApiLastTimePeriod;
 	
-	@Value("${iq.api.payload.application.name}")
+	@Value("${iq.api.sm.payload.application.name}")
 	private String iqApiApplicationName;
 	
-	@Value("${iq.api.payload.organisation.name}")
+	@Value("${iq.api.sm.payload.organisation.name}")
 	private String iqApiOrganisationName;
 
-	private String iqSmEndpoint = "api/v2/reports/metrics";
+	@Value("${iq.api}")
+    private String iqApi;
+
+	@Value("${iq.api.reports}")
+	private String iqSmEndpoint;
 
 
-	public void createSmDatafile(String iqSmPeriod) throws ClientProtocolException, IOException, JSONException, org.json.simple.parser.ParseException {
+
+	public void createSuccessMetricsCsvFile() throws ClientProtocolException, IOException, JSONException, org.json.simple.parser.ParseException {
 		log.info("Creating successmetrics.csv file");
 		
-		StringEntity apiPayload = getPayload(iqSmPeriod);
+		StringEntity apiPayload = getPayload();
 				
 		String metricsUrl = iqUrl + "/" + iqSmEndpoint;
     	HttpPost request = new HttpPost(metricsUrl);
@@ -93,16 +98,14 @@ public class NexusIQSuccessMetrics {
 		if (statusCode != 200) {
 			throw new RuntimeException("Failed with HTTP error code : " + statusCode);
 	    }
-	        
-	    log.info("Created successmetrics.csv file");
-	    
+	        	    
 	    InputStream content = response.getEntity().getContent();
 	    fileIoService.writeSuccessMetricsFile(content);
 	    
 	    return;
 	}
 	
-	private StringEntity getPayload(String iqSmPeriod) throws IOException, JSONException, org.json.simple.parser.ParseException {
+	private StringEntity getPayload() throws IOException, JSONException, org.json.simple.parser.ParseException {
 		log.info("Making api payload");
 
 		PayloadItem firstTimePeriod = new PayloadItem(iqApiFirstTimePeriod, false);
@@ -140,7 +143,7 @@ public class NexusIQSuccessMetrics {
 	private String[] getId(String endpoint, String aoName) throws ClientProtocolException, IOException, org.json.simple.parser.ParseException {
 		String[] s = new String[1];
 
-		String apiEndpoint = "/api/v2/" + endpoint;
+		String apiEndpoint = iqApi + endpoint;
 		
 		String content = getIqData(apiEndpoint);
 		
