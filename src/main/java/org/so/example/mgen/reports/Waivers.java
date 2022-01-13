@@ -17,7 +17,7 @@ public class Waivers implements CsvFileService  {
 
     @Override
     public void makeCsvFile(FileIoService f, JsonReader reader) {
-        log.info("Making QuarantinedComponentsSummary report");
+        log.info("Making Waivers report");
 
         List<String[]> data = new ArrayList<>();
         data.add(FilenameInfo.waiversFileHeader);

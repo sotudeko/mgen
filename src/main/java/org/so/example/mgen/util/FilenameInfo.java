@@ -8,10 +8,10 @@ public class FilenameInfo {
     public static final String successMetricsCsvFile = "successmetrics.csv";
 
     public static final String applicationEvaluationsCsvFile = "applicationevaluations.csv";
-    public static final String[] applicationEvaluationsFileHeader = {"Application Name", "Evaluation Date", "Stage"};
+    public static final String[] applicationEvaluationsFileHeader = {"ApplicationName", "EvaluationDate", "Stage"};
 
-    public static final String waiversCsvFile = "waivers.csv";
-    public static final String[] waiversFileHeader = {"Application Name", "Stage", "Package Url", "Policy Name", "Threat Level", "Comment", "Create Date", "Expiry Time"};
+    public static final String waiversCsvFile = "componentwaivers.csv";
+    public static final String[] waiversFileHeader = {"ApplicationName", "Stage", "PackageUrl", "PolicyName", "ThreatLevel", "Comment", "CreateDate", "ExpiryTime"};
 
     public static final String quarantinedComponentsCsvFile = "quarantinedComponents.csv";
     public static final String[] quarantinedComponentsFileHeader = {"Package Url", "Repository", "Time"};
@@ -32,5 +32,5 @@ public class FilenameInfo {
     public static final String[] organizationsFileHeader = {"Id", "Name"};
 
     public static final String policyViolationsCsvFile = "policyViolations.csv";
-    public static final String[] policyViolationsFileHeader = {"Policy Name", "Reason", "Application Name", "Open Time", "Component", "Stage"};
+    public static final String[] policyViolationsFileHeader = {"PolicyName", "Reason", "ApplicationName", "OpenTime", "Component", "Stage"};
 }
