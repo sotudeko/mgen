@@ -7,30 +7,28 @@ public class FilenameInfo {
 
     public static final String successMetricsCsvFile = "successmetrics.csv";
 
-    public static final String applicationEvaluationsCsvFile = "applicationevaluations.csv";
-    public static final String[] applicationEvaluationsFileHeader = {"Application Name", "Evaluation Date", "Stage"};
+    public static final String applicationEvaluationsCsvFile = "application_evaluations.csv";
+    public static final String[] applicationEvaluationsFileHeader = {"applicationName", "avaluationDate", "stage"};
+
+    public static final String policyViolationsCsvFile = "policy_violations.csv";
+    public static final String[] policyViolationsFileHeader = {"policyName", "reason", "applicationName", "openTime", "component", "stage", "threatLevel"};
 
     public static final String waiversCsvFile = "waivers.csv";
-    public static final String[] waiversFileHeader = {"Application Name", "Stage", "Package Url", "Policy Name", "Threat Level", "Comment", "Create Date", "Expiry Time"};
+    public static final String[] waiversFileHeader = {"applicationName", "stage", "packageUrl", "policyName", "threatLevel", "comment", "createDate", "expiryTime"};
 
-    public static final String quarantinedComponentsCsvFile = "quarantinedComponents.csv";
-    public static final String[] quarantinedComponentsFileHeader = {"Package Url", "Repository", "Time"};
+    public static final String quarantinedComponentsCsvFile = "quarantined_components.csv";
+    public static final String[] quarantinedComponentsFileHeader = {"packageUrl", "repository", "quarantineDate"};
 
-    public static final String autoReleasedFromQuarantineComponentsCsvFile = "autoReleasedFromQuarantineComponents.csv";
-    public static final String[] autoReleasedFromQuarantineComponentsFileHeader = {"Application Name", "Evaluation Date", "Stage"};
+    public static final String quarantinedComponentsSummaryCsvFile = "quarantined_components_summary.csv";
+    public static final String[] quarantinedComponentsSummaryFileHeader = {"repositoryCount", "quarantineEnabledCount", "quarantine nabled", "totalComponentCount", "quarantinedComponentCount"};
 
-    public static final String autoReleasedFromQuarantineConfigCsvFile = "autoReleasedFromQuarantineConfig.csv";
-    public static final String[] autoReleasedFromQuarantineConfigFileHeader = {"Config Id", "Name", "Enabled"};
+    public static final String autoReleasedFromQuarantineComponentsCsvFile = "autoreleased_from_quarantine_components.csv";
+    public static final String[] autoReleasedFromQuarantineComponentsFileHeader = {"displayName", "repository", "quarantineDate", "dateCleared"};
 
-    public static final String quarantinedComponentsSummaryCsvFile = "quarantinedComponentsSummary.csv";
-    public static final String[] quarantinedComponentsSummaryFileHeader = {"Repository Count", "Quarantine Enabled Count", "Quarantine Enabled", "Total Component Count", "Quarantined Component Count"};
-
-    public static final String autoReleasedFromQuarantineSummaryCsvFile = "autoReleasedFromQuarantineSummary.csv";
+    public static final String autoReleasedFromQuarantineSummaryCsvFile = "autoreleased_from_quarantine_components_summary.csv";
     public static final String[] autoReleasedFromQuarantineSummaryFileHeader = {"MTD", "YTD"};
 
-    public static final String organizationsCsvFile = "organizations.csv";
-    public static final String[] organizationsFileHeader = {"Id", "Name"};
+    public static final String autoReleasedFromQuarantineConfigCsvFile = "autoreleased_from_quarantine_config.csv";
+    public static final String[] autoReleasedFromQuarantineConfigFileHeader = {"id", "name", "autoReleaseQuarantineEnabled"};
 
-    public static final String policyViolationsCsvFile = "policyViolations.csv";
-    public static final String[] policyViolationsFileHeader = {"Policy Name", "Reason", "Application Name", "Open Time", "Component", "Stage"};
 }

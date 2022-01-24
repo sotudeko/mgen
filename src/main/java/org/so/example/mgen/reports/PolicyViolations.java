@@ -63,7 +63,7 @@ public class PolicyViolations implements CsvFileService {
                         reason = getLicense(reasons);
                     }
 
-                    String[] line = {policyName, reason, applicationPublicId, openTime, packageUrl, stage};
+                    String[] line = {policyName, reason, applicationPublicId, openTime, packageUrl, stage, String.valueOf(threatLevel)};
                     data.add(line);
                 }
             }
