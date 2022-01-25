@@ -86,7 +86,7 @@ public class PolicyViolations implements CsvFileService {
         }
 
         for (String c : cves){
-            cveList = cveList + ":";
+            cveList = c + ":" + cveList;
         }
 
         cveList = UtilService.removeLastChar(cveList);
@@ -110,7 +110,7 @@ public class PolicyViolations implements CsvFileService {
         }
 
         for (String l : licenses){
-            licenseList = licenseList + ":";
+            licenseList = l + ":" + licenseList;
         }
 
         licenseList = UtilService.removeLastChar(licenseList);
