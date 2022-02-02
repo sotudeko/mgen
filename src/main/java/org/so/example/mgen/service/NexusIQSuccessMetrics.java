@@ -69,7 +69,7 @@ public class NexusIQSuccessMetrics {
     private String iqApi;
 
 	@Value("${iq.api.reports}")
-	private String iqSmEndpoint;
+	private String iqReportsEndpoint;
 
 
 
@@ -78,7 +78,9 @@ public class NexusIQSuccessMetrics {
 		
 		StringEntity apiPayload = getPayload();
 				
-		String metricsUrl = iqUrl + "/" + iqSmEndpoint;
+		String metricsUrl = iqUrl + iqApi + iqReportsEndpoint;
+		log.info("Fetching metrics from: " + metricsUrl);
+
     	HttpPost request = new HttpPost(metricsUrl);
 
 		String auth = iqUser + ":" + iqPwd;
@@ -127,10 +129,15 @@ public class NexusIQSuccessMetrics {
 		
 		// organisation takes precedence
 		if (organisationName.isExists()){
-			ajson.put("organizationIds", getId("organizations", organisationName.getItem()));
+
+			String[] organizationIds = getIds("organizations", organisationName.getItem());
+			ajson.put("organizationIds", organizationIds);
+
 		}
 		else if (applicationName.isExists()) {
-			ajson.put("applicationIds", getId("applications", applicationName.getItem()));
+		
+			String[] applicationIds = getIds("applications", applicationName.getItem());
+			ajson.put("applicationIds", applicationIds);
 		}
 		
 		log.info("Api Payload: " + ajson.toString());
@@ -139,14 +146,25 @@ public class NexusIQSuccessMetrics {
 
 		return params;
 	}
-	
-	private String[] getId(String endpoint, String aoName) throws ClientProtocolException, IOException, org.json.simple.parser.ParseException {
-		String[] s = new String[1];
 
-		String apiEndpoint = iqApi + endpoint;
-		
+	private String[] getIds(String endPointName, String namesStr) throws ClientProtocolException, IOException, org.json.simple.parser.ParseException{
+		String apiEndpoint = iqApi + "/" + endPointName;
 		String content = getIqData(apiEndpoint);
-		
+
+		String[] names = namesStr.split(",");
+		String[] ids = new String[names.length];
+
+		for (int i=0; i < names.length; i++) {
+			String id = getId(content, endPointName, names[i]);
+			ids[i] = id;
+		}
+
+		return ids;
+	}
+	
+	private String getId(String content, String endpoint, String aoName) throws ClientProtocolException, IOException, org.json.simple.parser.ParseException {
+		String s = null;
+
 		JSONObject jsonObject = new JSONObject(content);
 	    
 	    JSONArray jsonArray = jsonObject.getJSONArray(endpoint);
@@ -160,7 +178,7 @@ public class NexusIQSuccessMetrics {
 	        if (oName.equals(aoName)) {
 	        	StringBuilder ep = new StringBuilder(endpoint);
 	        	log.info("Reporting for " + ep.deleteCharAt(ep.length()-1) + ": " + aoName + " [" + oId + "]");
-	        	s[0] =  oId;
+	        	s =  oId;
 	        	break;
 	        }
 	    }
@@ -170,7 +188,9 @@ public class NexusIQSuccessMetrics {
 	
 	private String getIqData(String endpoint) throws ClientProtocolException, IOException {
 						
-		String url = iqUrl + "/" + endpoint;
+		String url = iqUrl + endpoint;
+		log.info("Fetching data from: " + url);
+
     	HttpGet request = new HttpGet(url);
 
 		String auth = iqUser + ":" + iqPwd;
