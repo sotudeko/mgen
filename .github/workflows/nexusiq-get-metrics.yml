@@ -9,7 +9,7 @@ on:
 env:
   IMAGE_NAME: nexusiq-get-metrics
   RELEASE_BRANCH: main
-  VERSION: $(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+  VERSION: ${{ github.event.release.tag_name }}
 
 jobs:
 
