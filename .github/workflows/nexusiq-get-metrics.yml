@@ -43,7 +43,7 @@ jobs:
         - name: Upload the artifact
           uses: actions/upload-artifact@v2
           with:
-            name: metrics-${VERSION}.jar
+            name: metrics-${{ VERSION }}.jar
             path: build/libs
 
     # create_release:
