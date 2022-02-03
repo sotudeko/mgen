@@ -43,7 +43,7 @@ jobs:
         - name: Upload the artifact
           uses: actions/upload-artifact@v2
           with:
-            name: metrics-${{ release_number }}.jar
+            name: metrics-${{ github.event.release.tag_name }}.jar
             path: build/libs
 
     # create_release:
