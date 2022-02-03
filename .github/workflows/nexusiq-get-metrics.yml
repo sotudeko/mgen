@@ -9,7 +9,7 @@ on:
 env:
   IMAGE_NAME: nexusiq-get-metrics
   RELEASE_BRANCH: main
-  VERSION: ${{ github.event.release.tag_name }}
+  release_number: ${{ github.event.release.tag_name }}
 
 jobs:
 
@@ -43,7 +43,7 @@ jobs:
         - name: Upload the artifact
           uses: actions/upload-artifact@v2
           with:
-            name: metrics-${{ VERSION }}.jar
+            name: metrics-${{ release_number }}.jar
             path: build/libs
 
     # create_release:
