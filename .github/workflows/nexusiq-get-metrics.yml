@@ -9,7 +9,7 @@ on:
 env:
   IMAGE_NAME: nexusiq-get-metrics
   RELEASE_BRANCH: main
-  release_number: ${{ github.ref_name }}
+  RELEASE_VERSION: ${{ github.ref_name }}
 
 jobs:
 
@@ -38,18 +38,13 @@ jobs:
           run: chmod +x gradlew
           
         - name: Build with Gradle
-          run: ./gradlew -Pversion=$release_number clean build
+          run: ./gradlew -Pversion=$RELEASE_VERSION clean build
           
-        - name: Need release tag
-          run: |
-            echo "Start"
-            echo $release_number
-            echo "Finish"
-            ls -lR
-        # - name: Upload the artifact
-        #   uses: actions/upload-artifact@v2
-        #   with:
-        #     path: build/libs
+        - name: Upload the artifact
+          uses: actions/upload-artifact@v2
+          with:
+            name: mgen.jar
+            path: build/libs/mgen-$RELEASE_VERSION.jar
 
     # create_release:
     #     needs: [build_application]
