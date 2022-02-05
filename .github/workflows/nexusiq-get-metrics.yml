@@ -40,11 +40,15 @@ jobs:
         - name: Build with Gradle
           run: ./gradlew -Pversion=$RELEASE_VERSION clean build
           
+        - name: List files
+          run: |
+            ls -lR 
+
         - name: Upload the artifact
           uses: actions/upload-artifact@v2
           with:
             name: mgen.jar
-            path: build/libs/mgen-$RELEASE_VERSION.jar
+            path: build/libs
 
     # create_release:
     #     needs: [build_application]
