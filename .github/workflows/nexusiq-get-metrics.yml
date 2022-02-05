@@ -42,9 +42,12 @@ jobs:
           
         - name: Need release tag
           run: |
+            echo "Start"
             echo ${ github.event.release.tag_name }
             echo ${{ github.event.release.tag_name }}
-            echo ${GITHUB_REF
+            echo ${GITHUB_REF}
+            echo ${{github.ref_name}}
+            echo "Finish"
         # - name: Upload the artifact
         #   uses: actions/upload-artifact@v2
         #   with:
