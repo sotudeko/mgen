@@ -40,9 +40,11 @@ jobs:
         - name: Build with Gradle
           run: ./gradlew -Pversion=${{ github.event.release.tag_name }} clean build
           
-        - name: List files
+        - name: Need release tag
           run: |
-            ls -lR
+            echo ${ github.event.release.tag_name }
+            echo ${{ github.event.release.tag_name }}
+            echo ${GITHUB_REF
         # - name: Upload the artifact
         #   uses: actions/upload-artifact@v2
         #   with:
