@@ -38,12 +38,12 @@ jobs:
           run: chmod +x gradlew
           
         - name: Build with Gradle
-          run: ./gradlew -Pversion=${ release_number } clean build
+          run: ./gradlew -Pversion=$release_number clean build
           
         - name: Need release tag
           run: |
             echo "Start"
-            echo ${ release_number }
+            echo $release_number
             echo "Finish"
             ls -lR
         # - name: Upload the artifact
