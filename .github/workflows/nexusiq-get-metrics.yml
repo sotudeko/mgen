@@ -47,7 +47,6 @@ jobs:
         - name: Upload the artifact
           uses: actions/upload-artifact@v2
           with:
-            name: mgen.jar
             path: build/libs
 
     # create_release:
