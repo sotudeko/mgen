@@ -48,7 +48,7 @@ jobs:
           uses: actions/upload-artifact@v2
           with:
             name: mgen.jar
-            path: build/libs
+            path: build/libs/mgen-$RELEASE_VERSION.jar
 
         - name: Create release
           uses: softprops/action-gh-release@v1
