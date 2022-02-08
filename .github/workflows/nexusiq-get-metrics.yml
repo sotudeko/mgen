@@ -39,11 +39,7 @@ jobs:
           
         - name: Build with Gradle
           run: ./gradlew -Pversion=$RELEASE_VERSION clean build packagefiles
-          
-        - name: List files
-          run: |
-            ls -lR 
-
+      
         - name: Upload the artifact
           uses: actions/upload-artifact@v2
           with:
@@ -70,11 +66,6 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: mgen.jar
-            path: .
-        
-        - name: List files (docker)
-          run: |
-            ls -lR 
 
         - name: Build image
           run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
