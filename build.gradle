@@ -57,32 +57,32 @@ build.doFirst {
 	mkdir "${configdir}"
 }
 
-task packagejar (type: Copy) {
+task copyjar (type: Copy) {
   	from 'build/libs'
 	include "${applicationname}-${version}.jar"
   	into "${releasedir}"
 }
 
-task packagefiles (type: Copy) {
+task copyrunfiles (type: Copy) {
 	from 'releasefiles'
 	include 'runapp*'
 	into "${releasedir}"
 	filter(ReplaceTokens, tokens: [APPVER: project.version])
 }
 
-task packageconfig (type: Copy) {
+task copyconfig (type: Copy) {
 	from 'src/main/resources'
 	include "application.properties"
   	into "${configdir}"
 }
 
-task release(type: Zip) {
+task packagefiles(type: Zip) {
 	from "${packagedir}"
 	archiveName "${packagedir}.zip"
 	destinationDir(file(projectDir))
 }
 
-packagejar.dependsOn bootJar
-packagefiles.dependsOn packagejar
-packageconfig.dependsOn packagefiles
-release.dependsOn packageconfig
+copyjar.dependsOn bootJar
+copyrunfiles.dependsOn copyjar
+copyconfig.dependsOn copyrunfiles
+packagefiles.dependsOn copyconfig
