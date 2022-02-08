@@ -68,6 +68,7 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: mgen.jar
+            path: .
 
         - name: Build image
           run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
