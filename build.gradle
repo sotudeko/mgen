@@ -1,3 +1,5 @@
+import org.apache.tools.ant.filters.ReplaceTokens
+
 plugins {
 	id 'org.springframework.boot' version '2.6.1'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
@@ -7,6 +9,11 @@ plugins {
 
 group = 'org.so.example'
 sourceCompatibility = '1.8'
+
+def applicationname = 'mgen'
+def packagedir = "${applicationname}-${version}"
+def releasedir = "${packagedir}/${packagedir}"
+def configdir = "${packagedir}/${packagedir}/config"
 
 repositories {
 	mavenCentral()
@@ -31,3 +38,52 @@ dependencies {
 	implementation 'com.googlecode.json-simple:json-simple:1.1.1'
 }
 
+nexusIQScan {
+  username = 'admin'
+  password = 'admin123'
+  serverUrl = 'http://localhost:8070'
+  applicationId = "${applicationname}"
+  stage = 'build'
+  allConfigurations = true
+}
+
+clean.doFirst {
+	delete "${packagedir}"
+	delete "${packagedir}.zip"
+}
+
+build.doFirst {
+	mkdir "${packagedir}"
+	mkdir "${releasedir}"
+	mkdir "${configdir}"
+}
+
+task packagejar (type: Copy) {
+  	from 'build/libs'
+	include "${applicationname}-${version}.jar"
+  	into "${releasedir}"
+}
+
+task packagefiles (type: Copy) {
+	from 'releasefiles'
+	include 'runapp*'
+	into "${releasedir}"
+	filter(ReplaceTokens, tokens: [APPVER: project.version])
+}
+
+task packageconfig (type: Copy) {
+	from 'src/main/resources'
+	include "application.properties"
+  	into "${configdir}"
+}
+
+task release(type: Zip) {
+	from "${packagedir}"
+	archiveName "${packagedir}.zip"
+	destinationDir(file(projectDir))
+}
+
+packagejar.dependsOn bootJar
+packagefiles.dependsOn packagejar
+packageconfig.dependsOn packagefiles
+release.dependsOn packageconfig
