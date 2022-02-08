@@ -69,6 +69,10 @@ jobs:
           with:
             name: mgen.jar
             path: .
+        
+        - name: List files (docker)
+          run: |
+            ls -lR 
 
         - name: Build image
           run: docker build . --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
