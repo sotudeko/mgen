@@ -1,8 +1,8 @@
 #!/bin/sh
 
-workdir=`pwd`
-datadir=${workdir}
+workdir=$(pwd)
+metricsdir=${workdir}/metrics
 
-docker run -p 4040:4040 -v ${workdir}:/config -v ${workdir}:${datadir} -e data.dir=${datadir} ghcr.io/sonatype-nexus-community/iqsuccessmetrics2:@APPVER@
+docker run --rm -it -v ${workdir}:/config -v ${metricsdir}:/metrics ghcr.io/sotudeko/mgen:@APPVER@
 
 
