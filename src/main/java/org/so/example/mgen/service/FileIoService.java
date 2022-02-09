@@ -61,7 +61,9 @@ public class FileIoService {
             //FileUtils.deleteDirectory(new File(metricsDir));
         //}
 
+        Files.deleteIfExists(path);
         Files.createDirectory(Paths.get(metricsDir));
+        
         return;
     }
 
