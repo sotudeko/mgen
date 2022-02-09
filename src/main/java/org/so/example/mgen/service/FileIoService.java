@@ -54,7 +54,13 @@ public class FileIoService {
     }
 
     public void initMetricsDir() throws IOException {
-        FileUtils.deleteDirectory(new File(metricsDir));
+
+        Path path = Paths.get(metricsDir);
+
+        if (Files.exists(path)){
+            FileUtils.deleteDirectory(new File(metricsDir));
+        }
+
         Files.createDirectory(Paths.get(metricsDir));
         return;
     }
