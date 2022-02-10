@@ -66,9 +66,28 @@ jobs:
           uses: actions/download-artifact@v2
           with:
             name: mgen.jar
+            
+        - name: Set up QEMU
+          uses: docker/setup-qemu-action@master
+          with:
+            platforms: all
+          
+        - name: Set up Docker Buildx
+          id: buildx
+          uses: docker/setup-buildx-action@master
 
-        - name: Build image
-          run: docker buildx build . --platform linux/arm64,linux/amd64 --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
+        - name: Build
+          uses: docker/build-push-action@v2
+          with:
+            builder: ${{ steps.buildx.outputs.name }}
+            context: .
+            file: ./Dockerfile
+            platforms: linux/amd64,linux/arm64,linux/ppc64le
+            push: true
+            tags: ${{ steps.prep.outputs.tags }}
+          
+#         - name: Build image
+#           run: docker buildx build . --platform linux/arm64,linux/amd64 --file Dockerfile --tag $IMAGE_NAME --label "runnumber=${GITHUB_RUN_ID}"
 
         - name: Log in to registry
           run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
