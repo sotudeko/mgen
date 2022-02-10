@@ -2,8 +2,8 @@
 
 ts=$(date +"%d%m%Y:%H%M%S")
 workdir=$(pwd)
-metricsdir=${workdir}/metrics-${ts}
+metricsdir=${workdir}/iqmetrics-${ts}
 
-docker run --rm -it -v ${workdir}:/config -v ${metricsdir}:/metrics ghcr.io/sotudeko/mgen:@APPVER@
+docker run --rm -it -v ${workdir}:/config -v ${metricsdir}:/iqmetrics ghcr.io/sotudeko/mgen:@APPVER@
 
 

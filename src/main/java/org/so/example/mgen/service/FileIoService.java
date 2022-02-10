@@ -27,8 +27,7 @@ import java.io.InputStream;
 public class FileIoService {
     private static final Logger log = LoggerFactory.getLogger(FileIoService.class);
 
-    @Value("${metrics.outputdir}")
-    private String metricsDir;
+    private String metricsDir = "iqmetrics";
 
 
     public void writeCsvFile(String filename, List<String[]> data){
@@ -59,7 +58,8 @@ public class FileIoService {
         File metricsDirectory = new File(metricsDir);
 
         if (Files.exists(metricsDirPath) && metricsDirectory.list().length > 0){
-            FileUtils.deleteDirectory(metricsDirectory);
+            //FileUtils.deleteDirectory(metricsDirectory);
+            FileUtils.cleanDirectory(metricsDirectory);
         }
 
         if (Files.notExists(metricsDirPath)){
