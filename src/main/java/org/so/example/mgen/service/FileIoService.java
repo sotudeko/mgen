@@ -55,40 +55,42 @@ public class FileIoService {
 
     public void initMetricsDir() throws IOException {
 
-        Path path = Paths.get(metricsDir);
+        Path metricsDirPath = Paths.get(metricsDir);
+        File metricsDirectory = new File(metricsDir);
 
-        //if (Files.exists(path)){
-            //FileUtils.deleteDirectory(new File(metricsDir));
-        //}
-
-        //Files.deleteIfExists(path);
-        //Files.createDirectory(Paths.get(metricsDir));
-
-        return;
-    }
-
-    private void deleteDirectory(String dirname){
-
-        Path path = Paths.get(dirname);
-
-        if (Files.exists(path)){
-            try {
-                Stream<Path> files = Files.walk(path);
-
-                files.sorted(Comparator.reverseOrder())
-                        .map(Path::toFile)
-                        .forEach(File::deleteOnExit);
-
-                files.close();
-            }
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
+        if (Files.exists(metricsDirPath) && metricsDirectory.list().length > 0){
+            FileUtils.deleteDirectory(metricsDirectory);
         }
 
+        if (Files.notExists(metricsDirPath)){
+            Files.createDirectory(metricsDirPath);
+        }
 
         return;
     }
+
+    // private void deleteDirectory(String dirname){
+
+    //     Path path = Paths.get(dirname);
+
+    //     if (Files.exists(path)){
+    //         try {
+    //             Stream<Path> files = Files.walk(path);
+
+    //             files.sorted(Comparator.reverseOrder())
+    //                     .map(Path::toFile)
+    //                     .forEach(File::deleteOnExit);
+
+    //             files.close();
+    //         }
+    //         catch (IOException ex) {
+    //             ex.printStackTrace();
+    //         }
+    //     }
+
+
+    //     return;
+    // }
     
     public void writeSuccessMetricsFile(InputStream content) throws IOException {
 	    File outputFile = new File(metricsDir + File.separator + FilenameInfo.successMetricsCsvFile);
