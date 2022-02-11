@@ -100,7 +100,7 @@ jobs:
               IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
               # Use Docker `latest` tag convention
-              [ "$RELEASE_VERSION" == "$RELEASE_BRANCH" ] && RELEASE_VERSION=latest
+              # [ "$RELEASE_VERSION" == "$RELEASE_BRANCH" ] && RELEASE_VERSION=latest
 
               echo IMAGE_ID=$IMAGE_ID
               echo RELEASE_VERSION=$RELEASE_VERSION
