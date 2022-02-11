@@ -106,7 +106,7 @@ jobs:
           with:
             registry: ghcr.io
             username: ${{ github.actor }}
-            password: ${{ secrets.GHCR_PAT }}
+            password: ${{ secrets.MGEN }}
 
         - name: Build
           uses: docker/build-push-action@v2
