@@ -1,7 +1,7 @@
 #!/bin/sh
 
-ts=$(date +"%d%m%Y:%H%M%S")
 workdir=$(pwd)
+#ts=$(date +"%d%m%Y:%H%M%S")
 #metricsdir=${workdir}/iqmetrics-${ts}
 metricsdir=${workdir}/iqmetrics
 
